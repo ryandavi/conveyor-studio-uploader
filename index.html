@@ -1,124 +1,131 @@
-<html>
-	<head>
-		<title>Conveyor Studios Uploader</title>
-		<style>
-			html {
-				display: flex;
-				align-items: center;
-				justify-content: center;
+<div id="upload-area" class="driveuploader-fill"></div>
+<style>
+html
+body {
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.driveuploader-fill {
+	width: 100%;
+	height: 100%;
+}
+
+div.du-message {
+	margin: 0 auto;
+	max-width: 500px;
+	font-family: Roboto, sans-serif;
+}
+div.du-message ul.du-files li span.size {
+	background-color: #eeeeee;
+	padding: 3px 6px;
+	margin-left: 4px;
+	border-radius: 5px;
+	font-size: 80%;
+	color: #b2b2b2;
+}
+
+div.du-message div.du-warning {
+	color: green;
+  background-color: lightgreen;
+	padding: 10px 12px;
+  border-radius: 5px;
+  display: inline-block;
+	text-align:center;
+	max-width: 80%;
+	margin-top: 15px;
+  line-height: 1.75em;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30px;
+
+}
+
+div.du-message div.du-warning.error {
+	color: red;
+	background-color: #FFCCCC;
+}
+
+div.du-message div.du-warning u {
+	border-bottom: 1px dotted green;
+  text-decoration: none;
+	padding-bottom: 1px;
+}
+
+ul.du-files li + li {
+  margin-top: 10px;
+}
+
+/* UPLOAD BOX */
+.du-dropzone-inner {
+
+}
+
+.du-choosebtn {
+	display: inline-block;
+	height: auto;
+}
+
+</style>
+
+<script>
+	function getUrlParameter(name) {
+	    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+	    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+	    var results = regex.exec(location.search);
+	    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	}
+
+	function getFolderParamater(){
+		var name = getUrlParameter("folder");
+		return name;
+	}
+
+  var uploadArea = document.getElementById('upload-area');
+
+	function formatBytes(bytes, decimals = 2) {
+	    if (bytes === 0) return '0 Bytes';
+	    const k = 1024;
+	    const dm = decimals < 0 ? 0 : decimals;
+	    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+	    const i = Math.floor(Math.log(bytes) / Math.log(k));
+	    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+	}
+
+  function driveUploaderCallback(status, result, instance) {
+			var html;
+			var custom_folder = getFolderParamater();
+			if(custom_folder != null) instance.setCustomSubfolderName();
+	    if (status == 'done' && result) {
+				html = '<div class="du-message">';
+	      html += '<div class="sucess-upload">The following files were successfully uploaded:</a>';
+				html += '<ul class="du-files">';
+
+				var files = result.files;
+				if (files.forEach) {
+					files.forEach(function(el, i, arr) {
+						html += '<li>' + el.name + ' <span class="size">'  + formatBytes(el.size) + '</span></li>';
+					});
+				}
+
+				html += '</ul>';
+				html += '<div class="du-warning">Your files are attached, please submit the form using the button below to finalize your submission.</div>';
+				html += '</div>';
+				uploadArea.innerHTML = html;
+	    }else if (status == 'error') {
+				html = '<div class="du-message">';
+				html += '<div class="du-warning error">There was an error uploading the attachments for your submission.</div>';
+				html += '</div>';
+				uploadArea.innerHTML = html;
 			}
-			div.du-message {
-				margin: 0 auto;
-				max-width: 500px;
-				font-family: Roboto, sans-serif;
-			}
-			div.du-message ul.du-files li span.size {
-				background-color: #eeeeee;
-				padding: 3px 6px;
-				margin-left: 4px;
-				border-radius: 5px;
-				font-size: 80%;
-				color: #b2b2b2;
-			}
+  }
+</script>
 
-			div.du-message div.du-warning {
-				color: green;
-			  background-color: lightgreen;
-				padding: 10px 12px;
-			  border-radius: 5px;
-			  display: inline-block;
-				text-align:center;
-				max-width: 80%;
-				margin-top: 15px;
-			  line-height: 1.75em;
-
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				margin-top: 30px;
-
-			}
-
-			div.du-message div.du-warning.error {
-				color: red;
-				background-color: #FFCCCC;
-			}
-
-			div.du-message div.du-warning u {
-				border-bottom: 1px dotted green;
-			  text-decoration: none;
-				padding-bottom: 1px;
-			}
-
-			ul.du-files li + li {
-			  margin-top: 10px;
-			}
-
-			/* UPLOAD BOX */
-			.du-dropzone-inner {
-
-			}
-			.du-choosebtn {
-				display: inline-block;
-				height: auto;
-			}
-		</style>
-
-		<script>
-			function getUrlParameter(name) {
-			    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-			    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-			    var results = regex.exec(location.search);
-			    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-			}
-
-			function getFolderParamater(){
-				var name = getUrlParameter("folder");
-				return name;
-			}
-
-		  var uploadArea = document.getElementById('upload-area');
-
-			function formatBytes(bytes, decimals = 2) {
-			    if (bytes === 0) return '0 Bytes';
-			    const k = 1024;
-			    const dm = decimals < 0 ? 0 : decimals;
-			    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-			    const i = Math.floor(Math.log(bytes) / Math.log(k));
-			    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-			}
-
-		  function driveUploaderCallback(status, result, instance) {
-					var html;
-					var custom_folder = getFolderParamater();
-					if(custom_folder != null) instance.setCustomSubfolderName();
-			    if (status == 'done' && result) {
-						html = '<div class="du-message">';
-			      html += '<div class="sucess-upload">The following files were successfully uploaded:</a>';
-						html += '<ul class="du-files">';
-
-						var files = result.files;
-						if (files.forEach) {
-							files.forEach(function(el, i, arr) {
-								html += '<li>' + el.name + ' <span class="size">'  + formatBytes(el.size) + '</span></li>';
-							});
-						}
-
-						html += '</ul>';
-						html += '<div class="du-warning">Your files are attached, please submit the form using the button below to finalize your submission.</div>';
-						html += '</div>';
-						uploadArea.innerHTML = html;
-			    }else if (status == 'error') {
-						html = '<div class="du-message">';
-						html += '<div class="du-warning error">There was an error uploading the attachments for your submission.</div>';
-						html += '</div>';
-						uploadArea.innerHTML = html;
-					}
-		  }
-		</script>
-		<script src="https://driveuploader.com/upload/1S8XtvmxzT/embed.js"></script>
-	</head>
-	<body>
-		<div id="upload-area" class="driveuploader-fill"></div>
-	</body>
-</html>
+<script src="https://driveuploader.com/upload/1S8XtvmxzT/embed.js"></script>
