@@ -61,13 +61,26 @@ ul.du-files li + li {
 }
 
 /* UPLOAD BOX */
-.du-dropzone-inner {
+.driveuploader-fill .du-dropzone-inner {
 
 }
 
-.du-choosebtn {
+.driveuploader-fill .du-choosebtn {
 	display: inline-block;
 	height: auto;
+	padding: 15px;
+	background-image: none;
+  background-color: #4d90fe;
+	border: 0;
+	font-size: 14px;
+}
+
+.driveuploader-fill .du-progressbar {
+	background: #a6b4d6;
+}
+
+.driveuploader-fill .du-progressbar-bg {
+	background-color: #e7e9f6;
 }
 
 </style>
@@ -100,7 +113,7 @@ ul.du-files li + li {
 			var html;
 			var custom_folder = getFolderParamater();
 			console.log("Folder: "+custom_folder)
-			if(custom_folder != null) instance.setCustomSubfolderName();
+			if(custom_folder != null) instance.setCustomSubfolderName(custom_folder);
 	    if (status == 'done' && result) {
 				html = '<div class="du-message">';
 	      html += '<div class="sucess-upload">The following files were successfully uploaded:</a>';
