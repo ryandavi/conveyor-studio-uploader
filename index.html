@@ -99,6 +99,7 @@ ul.du-files li + li {
   function driveUploaderCallback(status, result, instance) {
 			var html;
 			var custom_folder = getFolderParamater();
+			console.log("Folder: "+custom_folder)
 			if(custom_folder != null) instance.setCustomSubfolderName();
 	    if (status == 'done' && result) {
 				html = '<div class="du-message">';
