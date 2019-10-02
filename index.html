@@ -1,5 +1,14 @@
 <div id="upload-area" class="driveuploader-fill"></div>
 <style>
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 html
 body {
 	display: flex;
@@ -11,12 +20,23 @@ body {
   padding: 0;
 }
 
-.driveuploader-fill {
+div.driveuploader-fill {
 	width: 100%;
 	height: 100%;
 	display: flex;
   align-items: center;
   justify-content: center;
+}
+
+div.du-wrap {
+	font-family: Poppins, sans-serif;
+	color:#000000;
+	font-size:16px;
+	line-height:20px;
+}
+
+div.driveuploader-fill>.du-wrap>.du-dropzone {
+	width: 100%;
 }
 
 div.du-message {
@@ -25,47 +45,20 @@ div.du-message {
 	font-family: Roboto, sans-serif;
 }
 div.du-message ul.du-files li span.size {
-	background-color: #e7e9f6;
+	background-color: #f3f3f3;
 	padding: 3px 6px;
 	margin-left: 4px;
 	border-radius: 5px;
 	font-size: 80%;
-	color: #a6b4d6;
+	color: grey;
 }
 
-div.du-message div.du-warning {
-	color: green;
-	background-color: lightgreen;
-	padding: 10px 15px;
-	border-radius: 5px;
-	text-align: center;
-	line-height: 1.75em;
-	width: 80%;
-	margin: 0 auto;
-	margin-top: 20px;
-}
-
-div.du-message div.du-warning.error {
-	color: red;
-	background-color: #FFCCCC;
-}
-
-div.du-message div.du-warning u {
-	border-bottom: 1px dotted green;
-  text-decoration: none;
-	padding-bottom: 1px;
-}
 
 ul.du-files li + li {
   margin-top: 10px;
 }
 
-/* UPLOAD BOX */
-.driveuploader-fill .du-dropzone-inner {
-
-}
-
-.driveuploader-fill .du-choosebtn {
+div.driveuploader-fill .du-choosebtn {
 	display: inline-block;
 	height: auto;
 	padding: 15px;
@@ -75,17 +68,98 @@ ul.du-files li + li {
 	font-size: 14px;
 }
 
-.driveuploader-fill .du-choosebtn:hover {
+div.driveuploader-fill .du-choosebtn:hover {
 	opacity: .9;
 }
 
+
+div.driveuploader-fill .du-warning {
+	text-align:center;
+	margin-top: 25px;
+}
+
+
+
+/* CONVEYOR STYLING */
+
+div.du-dropzone-inner,
+div.du-divider,
+div.driveuploader-fill a.du-choosebtn {
+	font-size: 0;
+}
+
+div.du-dropzone-inner:before,
+div.du-divider:before,
+div.driveuploader-fill a.du-choosebtn:before {
+	letter-spacing: .05em;
+}
+
+div.du-dropzone-inner {
+	font-weight: bold;
+}
+
+div.du-infobox {
+	color: black;
+}
+
+div.du-dropzone-inner:before {
+  font-size: 22px;
+	color: black;
+	white-space: pre;
+	content: "Drag & Drop\AYour Files Here";
+	line-height: 1.5em;
+}
+
+div.du-dropzone {
+	border: 2px solid #8ecbc7;
+	background-color: #e3f3f2;
+}
+
+div.du-divider {
+	line-height: normal;
+	padding: 20px 0;
+}
+
+div.du-divider:before {
+	font-size:13px;
+	color: #8ecbc7;
+	content: "or";
+}
+div.du-warning a.refresh,
+div.driveuploader-fill a.du-choosebtn {
+	letter-spacing: unset;
+	border-radius: unset;
+	border: 2px solid #000000;
+	background-color: #8ecbc7;
+	color: black;
+	text-decoration: none;
+	padding: 12px 20px;
+	display: inline-block;
+	margin: 0 auto;
+}
+
+div.du-warning a.refresh:hover,
+div.driveuploader-fill a.du-choosebtn:hover {
+
+}
+
+div.driveuploader-fill a.du-choosebtn:before {
+	font-size: 20px;
+	content: "Upload Files";
+}
+
 .driveuploader-fill .du-progressbar {
-	background: #a6b4d6;
+	background: #8ecbc7;
+	padding: 5px;
+	height: unset;
+	color: black;
 }
 
 .driveuploader-fill .du-progressbar-bg {
-	background-color: #e7e9f6;
+	background-color: #e3f3f2;
+	height: unset;
 }
+
 
 </style>
 
@@ -123,6 +197,7 @@ ul.du-files li + li {
 	      html += '<div class="sucess-upload">The following files were successfully uploaded:</a>';
 				html += '<ul class="du-files">';
 
+				// List of files
 				var files = result.files;
 				if (files.forEach) {
 					files.forEach(function(el, i, arr) {
@@ -131,7 +206,11 @@ ul.du-files li + li {
 				}
 
 				html += '</ul>';
-				html += '<div class="du-warning">Your files are attached, please submit the form using the button below to finalize your submission.</div>';
+
+				// html += '<div class="du-warning">Your files are attached, please submit the form using the button below to finalize your submission.</div>';
+
+				html += '<div class="du-warning"><a class="refresh" href="javascript:window.location.reload(true)">Upload another file</a></div>';
+
 				html += '</div>';
 				uploadArea.innerHTML = html;
 	    }else if (status == 'error') {
@@ -143,4 +222,5 @@ ul.du-files li + li {
   }
 </script>
 
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 <script src="https://driveuploader.com/upload/1S8XtvmxzT/embed.js"></script>
